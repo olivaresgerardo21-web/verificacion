@@ -13,44 +13,47 @@
         .search-container input { background: transparent; border: none; color: white; width: 100%; outline: none; padding: 5px; }
         .search-container button { background: transparent; border: none; color: var(--main-color); cursor: pointer; font-size: 18px; }
         .content { padding-top: 100px; display: flex; flex-direction: column; align-items: center; }
-        .video-box { width: 95%; max-width: 1100px; aspect-ratio: 16/9; background: #0c0c0c; border: 1px solid #222; }
-        iframe { width: 100%; height: 100%; border: none; }
+        .video-box { width: 95%; max-width: 1100px; aspect-ratio: 16/9; background: #0c0c0c; border: 1px solid #222; position: relative; }
+        iframe { width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; }
         .info { width: 90%; max-width: 1100px; margin: 25px 0; border-left: 4px solid var(--main-color); padding-left: 20px; }
         h1 { margin: 0; font-size: 2.2rem; }
         .tag { font-size: 12px; color: #46d369; font-weight: bold; text-transform: uppercase; }
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; width: 90%; max-width: 1100px; margin-bottom: 50px; }
-        .movie-card { background: var(--card-bg); border-radius: 4px; overflow: hidden; transition: transform 0.3s; cursor: pointer; border: 1px solid #333; }
-        .movie-card:hover { transform: scale(1.05); border-color: var(--main-color); }
+        .movie-card { background: var(--card-bg); border-radius: 4px; overflow: hidden; transition: 0.3s; cursor: pointer; border: 1px solid #333; }
         .movie-card img { width: 100%; height: 240px; object-fit: cover; }
         .movie-card-info { padding: 10px; font-size: 14px; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
-
     <header class="navbar">
         <a href="#" class="logo">CINE-STREAM</a>
         <div class="search-container">
-            <input type="text" id="movie-query" placeholder="Buscar película...">
+            <input type="text" id="movie-query" placeholder="Escribe el nombre de la película...">
             <button onclick="searchMovie()">🔍</button>
         </div>
     </header>
 
     <main class="content">
         <div class="video-box">
-            <iframe id="video-frame" src="https://vidsrc.me/embed/movie?imdb=tt12412888" allowfullscreen></iframe>
+            <iframe id="video-frame" src="https://vidsrc.xyz/embed/movie?imdb=tt12412888" allowfullscreen></iframe>
         </div>
-        
         <div class="info">
-            <div class="tag">● Motor Cine-Stream Optimizado (Hardware 88%)</div>
+            <div class="tag">● MOTOR ACTIVO - ALTA DEFINICIÓN</div>
             <h1 id="display-title">Spider-Man: No Way Home</h1>
-            <p style="color: #aaa; font-size: 14px;">Usa el botón de configuración en el reproductor para cambiar a Audio Español o añadir Subtítulos.</p>
+            <p style="color: #aaa; font-size: 14px;">Si el video falla, presiona la lupa de nuevo para cambiar de servidor automáticamente.</p>
         </div>
-
         <div class="grid" id="movie-grid"></div>
     </main>
 
     <script>
         const API_KEY = 'acef212239618a80004940562548261a';
+        let currentIMDB = 'tt12412888';
+        const servers = [
+            "https://vidsrc.xyz/embed/movie?imdb=",
+            "https://vidsrc.me/embed/movie?imdb=",
+            "https://embed.smashystream.com/playere.php?tmdb="
+        ];
+        let serverIndex = 0;
 
         async function loadCatalog() {
             try {
@@ -64,15 +67,16 @@
                     card.innerHTML = `<img src="https://image.tmdb.org/t/p/w500${movie.poster_path}"><div class="movie-card-info">${movie.title}</div>`;
                     grid.appendChild(card);
                 });
-            } catch (e) { console.error("Error catálogo"); }
+            } catch (e) { console.log("Error de carga"); }
         }
 
         async function updatePlayer(tmdbId, title) {
             const res = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${API_KEY}`);
             const detail = await res.json();
             if (detail.imdb_id) {
-                // Servidor que permite elegir idioma manualmente
-                document.getElementById('video-frame').src = `https://vidsrc.me/embed/movie?imdb=${detail.imdb_id}`;
+                currentIMDB = detail.imdb_id;
+                serverIndex = 0;
+                document.getElementById('video-frame').src = servers[serverIndex] + currentIMDB;
                 document.getElementById('display-title').innerText = title;
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
@@ -81,13 +85,14 @@
         async function searchMovie() {
             const query = document.getElementById('movie-query').value;
             if (!query) return;
-            // Búsqueda con prioridad en español
             const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&language=es-ES`);
             const data = await res.json();
             if (data.results && data.results.length > 0) {
                 updatePlayer(data.results[0].id, data.results[0].title);
             } else {
-                alert("Película no encontrada. Intenta con el nombre original o revisa la ortografía.");
+                // Si falla la búsqueda, intenta rotar el servidor de la película actual
+                serverIndex = (serverIndex + 1) % servers.length;
+                document.getElementById('video-frame').src = servers[serverIndex] + currentIMDB;
             }
         }
 
