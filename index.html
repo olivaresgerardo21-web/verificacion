@@ -1,25 +1,155 @@
-<div class="fixed bottom-0 left-0 w-full bg-zinc-950 border-t border-yellow-900/30 p-3 z-[100] flex items-center justify-between px-6">
-    <div class="flex items-center space-x-4">
-        <div class="w-12 h-12 bg-zinc-800 rounded shadow-lg overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=100&q=80" class="object-cover w-full h-full">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VODEXPRIME - El Monstruo del Streaming</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #050505; color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+        .gold-text { color: #D4AF37; }
+        .gold-bg { background-color: #D4AF37; }
+        .hero-gradient { 
+            background: linear-gradient(to right, #050505 40%, transparent 100%), url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&w=1200&q=80'); 
+            background-size: cover; 
+            background-position: center;
+        }
+        .movie-card { transition: transform 0.3s; cursor: pointer; position: relative; }
+        .movie-card:hover { transform: scale(1.05); border: 2px solid #D4AF37; }
+        .live-badge { position: absolute; top: 10px; left: 10px; background: red; color: white; padding: 2px 8px; font-size: 10px; font-weight: bold; border-radius: 4px; animation: pulse 2s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #D4AF37; border-radius: 10px; }
+    </style>
+</head>
+<body class="pb-32">
+
+    <nav class="flex items-center justify-between px-6 md:px-12 py-5 bg-black/90 backdrop-blur-md sticky top-0 z-50 border-b border-white/5">
+        <div class="text-3xl font-black tracking-tighter cursor-pointer">VODEX<span class="gold-text">PRIME</span></div>
+        <div class="hidden md:flex space-x-8 text-sm font-bold uppercase tracking-widest items-center">
+            <a href="#" class="hover:text-gray-400 transition">Inicio</a>
+            <a href="#" class="hover:text-gray-400 transition">Cine</a>
+            <a href="#" class="hover:text-gray-400 transition">Series</a>
+            <a href="#" class="hover:text-gray-400 transition">Música</a>
+            <a href="#" class="gold-text border-b-2 border-yellow-600 pb-1">VIP</a>
         </div>
-        <div>
-            <p class="text-sm font-bold gold-text">Reproduciendo ahora...</p>
-            <p class="text-xs text-gray-400">Selecciona una pista para iniciar</p>
+        <div class="flex items-center space-x-5">
+            <span class="text-xl cursor-pointer hover:text-yellow-500 transition">🔍</span>
+            <div class="w-10 h-10 bg-zinc-800 rounded-full border border-zinc-700 overflow-hidden">
+                <img src="https://ui-avatars.com/api/?name=Gerardo&background=D4AF37&color=000" alt="Profile">
+            </div>
+        </div>
+    </nav>
+
+    <section class="h-[70vh] hero-gradient flex items-center px-6 md:px-12">
+        <div class="max-w-3xl">
+            <p class="uppercase tracking-[0.4em] text-xs mb-3 font-bold text-yellow-500">Contenido Original</p>
+            <h1 class="text-6xl md:text-8xl font-black mb-6 leading-none">INTERSTELLAR:<br>EL VIAJE</h1>
+            <p class="text-gray-400 mb-8 max-w-lg hidden md:block">Un grupo de científicos y exploradores asumen el mayor reto de la historia de la humanidad: viajar más allá de nuestra galaxia.</p>
+            <div class="flex space-x-4">
+                <button class="gold-bg text-black px-12 py-4 font-black rounded uppercase text-sm shadow-xl hover:brightness-110 transition">Ver Ahora</button>
+                <button class="border border-white/30 bg-white/5 backdrop-blur-sm px-12 py-4 font-black rounded uppercase text-sm hover:bg-white/10 transition">+ Mi Lista</button>
+            </div>
+        </div>
+    </section>
+
+    <main class="px-6 md:px-12 py-12 space-y-16">
+        
+        <section>
+            <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter flex items-center">
+                <span class="gold-bg w-2 h-8 mr-3"></span> Tendencias Globales
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-5 gap-6">
+                <div class="movie-card bg-zinc-900 aspect-[2/3] rounded-lg overflow-hidden border border-white/5 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1536440136628-849c177e76a1?w=500&q=80" class="w-full h-full object-cover">
+                </div>
+                <div class="movie-card bg-zinc-900 aspect-[2/3] rounded-lg overflow-hidden border border-white/5 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1594908900066-3f47337549d8?w=500&q=80" class="w-full h-full object-cover">
+                </div>
+                <div class="movie-card bg-zinc-900 aspect-[2/3] rounded-lg overflow-hidden border border-white/5 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1485846234645-a62644f84728?w=500&q=80" class="w-full h-full object-cover">
+                </div>
+                <div class="movie-card bg-zinc-900 aspect-[2/3] rounded-lg overflow-hidden border border-white/5 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=500&q=80" class="w-full h-full object-cover">
+                </div>
+                <div class="movie-card bg-zinc-900 aspect-[2/3] rounded-lg overflow-hidden border border-white/5 shadow-2xl">
+                    <img src="https://images.unsplash.com/photo-1542204172-3c1f11c0c80d?w=500&q=80" class="w-full h-full object-cover">
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <h2 class="text-2xl font-black mb-6 uppercase tracking-tighter flex items-center">
+                <span class="bg-red-600 w-2 h-8 mr-3"></span> VODEX Live (TV & Shorts)
+            </h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="movie-card aspect-video bg-zinc-900 rounded-xl overflow-hidden border border-white/5">
+                    <span class="live-badge">EN VIVO</span>
+                    <img src="https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&q=80" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 p-4 bg-gradient-to-t from-black w-full text-sm font-bold">Concierto Mundial Live</div>
+                </div>
+                <div class="movie-card aspect-video bg-zinc-900 rounded-xl overflow-hidden border border-white/5">
+                    <span class="live-badge">EN VIVO</span>
+                    <img src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&q=80" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 p-4 bg-gradient-to-t from-black w-full text-sm font-bold">Podcast: El Futuro de VOD</div>
+                </div>
+                <div class="movie-card aspect-video bg-zinc-900 rounded-xl overflow-hidden border border-white/5">
+                    <span class="live-badge">EN VIVO</span>
+                    <img src="https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=600&q=80" class="w-full h-full object-cover">
+                    <div class="absolute bottom-0 p-4 bg-gradient-to-t from-black w-full text-sm font-bold">Noticias 24/7</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-gradient-to-r from-zinc-900 via-zinc-800 to-black p-10 rounded-2xl border border-yellow-600/20 flex flex-col md:flex-row justify-between items-center shadow-2xl">
+            <div class="text-center md:text-left">
+                <h3 class="text-3xl font-black gold-text italic mb-2 tracking-tighter">EXPERIENCIA ELITE ($1 USD)</h3>
+                <div class="flex flex-wrap justify-center md:justify-start gap-6 text-xs font-bold text-gray-400 mt-4 uppercase tracking-widest">
+                    <span>💎 4K ULTRA HD</span>
+                    <span>💎 SIN PUBLICIDAD</span>
+                    <span>💎 ACCESO ALPHA</span>
+                </div>
+            </div>
+            <button class="mt-8 md:mt-0 gold-bg text-black px-14 py-5 font-black rounded-full text-sm uppercase tracking-tighter hover:scale-110 shadow-lg shadow-yellow-600/20 transition-all duration-300">Unirme Ahora</button>
+        </section>
+
+    </main>
+
+    <div class="fixed bottom-0 left-0 w-full bg-black/95 backdrop-blur-xl border-t border-yellow-600/20 p-4 z-[100] flex items-center justify-between px-6 md:px-12 shadow-[0_-10px_40px_rgba(0,0,0,0.8)]">
+        <div class="flex items-center space-x-4 w-1/4">
+            <div class="w-14 h-14 bg-zinc-800 rounded-md shadow-lg overflow-hidden border border-white/10">
+                <img src="https://images.unsplash.com/photo-1614613535308-eb5fbd3d2c17?w=100&q=80" class="object-cover w-full h-full">
+            </div>
+            <div class="hidden sm:block">
+                <p class="text-sm font-black gold-text">VODEX Music</p>
+                <p class="text-[10px] text-gray-500 font-bold uppercase tracking-widest">Modo Audio Activo</p>
+            </div>
+        </div>
+        <div class="flex flex-col items-center space-y-2 w-1/3 md:w-1/2">
+            <div class="flex items-center space-x-8 text-xl">
+                <span class="cursor-pointer hover:text-yellow-500 transition">⏮️</span>
+                <span class="text-4xl cursor-pointer hover:scale-110 gold-text transition">▶️</span>
+                <span class="cursor-pointer hover:text-yellow-500 transition">⏭️</span>
+            </div>
+            <div class="w-full max-w-md bg-zinc-800 h-1.5 rounded-full relative overflow-hidden">
+                <div class="bg-yellow-600 h-full w-1/4 rounded-full shadow-[0_0_10px_#D4AF37]"></div>
+            </div>
+        </div>
+        <div class="flex items-center justify-end space-x-6 w-1/4">
+            <span class="hidden md:block text-[10px] font-bold text-gray-500 italic">Sincronizado</span>
+            <span class="text-2xl cursor-pointer hover:text-yellow-500 transition">🔊</span>
         </div>
     </div>
-    <div class="flex flex-col items-center space-y-2 w-1/3">
-        <div class="flex items-center space-x-6">
-            <span class="cursor-pointer hover:text-yellow-500">⏮️</span>
-            <span class="text-2xl cursor-pointer hover:scale-110 gold-text">▶️</span>
-            <span class="cursor-pointer hover:text-yellow-500">⏭️</span>
-        </div>
-        <div class="w-full bg-zinc-800 h-1 rounded-full relative">
-            <div class="bg-yellow-600 h-1 w-1/3 rounded-full"></div>
-        </div>
+
+    <div class="fixed bottom-24 right-6 z-[101]">
+        <button class="gold-bg p-4 rounded-full shadow-2xl flex items-center justify-center group relative hover:rotate-12 transition-all">
+            <span class="text-black text-3xl">🎧</span>
+            <span class="absolute right-16 bg-black border border-yellow-600 text-[10px] py-1 px-4 rounded-full hidden group-hover:block whitespace-nowrap font-bold uppercase tracking-tighter">¿Ayuda?</span>
+            <div class="absolute -top-1 -right-1 bg-red-600 w-4 h-4 rounded-full border-2 border-black animate-pulse"></div>
+        </button>
     </div>
-    <div class="hidden md:flex items-center space-x-4">
-        <span class="text-xs text-gray-500 italic">Modo VODEX Audio</span>
-        <span class="text-xl cursor-pointer">🔊</span>
-    </div>
-</div>
+
+</body>
+</html>
